@@ -30,16 +30,13 @@ app.register(fastifyStatic, {
 app.register(fastifyFormBody);
 app.register(fastifyCookie);
 app.register(fastifySession, {
-  secret: config.cookieSecret,
-  cookie: {
-    secure: false
-  }
+  secret: config.cookieSecret
 });
 
-app.get('/pizza/login', (req, rep) => rep.sendFile('index.html'));
-app.get('/pizza/signup', (req, rep) => rep.sendFile('index.html'));
-app.get('/pizza/dashboard', (req, rep) => rep.sendFile('index.html'));
-app.get('/pizza/dashboard/*', (req, rep) => rep.sendFile('index.html'));
+app.get('/login', (req, rep) => rep.sendFile('index.html'));
+app.get('/signup', (req, rep) => rep.sendFile('index.html'));
+app.get('/dashboard', (req, rep) => rep.sendFile('index.html'));
+app.get('/dashboard/*', (req, rep) => rep.sendFile('index.html'));
 
 const captchaVerify = async (token, ip) => {
   const params = new URLSearchParams();
