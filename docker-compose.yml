@@ -1,0 +1,39 @@
+version: "2"
+services:
+    web:
+        image: node:12.20
+        user: node
+        working_dir: /home/node/app
+        environment: 
+            - NODE_ENV=production
+        volumes: 
+            - ./:/home/node/app
+        ports: 
+            - 3000:3000
+        command: npm start
+    db:
+        image: mysql
+        ports: 
+            - 3306:3306
+        environment:
+            MYSQL_DATABASE: restaurant
+            MYSQL_USER: ben
+            MYSQL_PASSWORD: password
+            MYSQL_ROOT_PASSWORD: password
+        volumes:
+            - ./dump:/docker-entrypoint-initdb.d
+            - persistent:/var/lib/mysql
+        networks:
+            - default
+    phpmyadmin:
+        image: phpmyadmin/phpmyadmin
+        links: 
+            - db:db
+        ports:
+            - 8000:80
+        environment:
+            MYSQL_USER: ben
+            MYSQL_PASSWORD: password
+            MYSQL_ROOT_PASSWORD: password
+volumes:
+    persistent:
